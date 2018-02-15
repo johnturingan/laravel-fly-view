@@ -31,23 +31,23 @@ $ composer require johnturingan/laravel-fly-view
 
 In config/app.php replace
 
-######Illuminate\View\ViewServiceProvider::class
+###### Illuminate\View\ViewServiceProvider::class
 
 with
 
-######Snp\FlyView\Providers\ViewServiceProvider::class
+###### Snp\FlyView\Providers\ViewServiceProvider::class
 
 
 ## Usage :white_check_mark:
 
-######View normal usage:
+###### View normal usage:
 Pass path to blade file using dot notation on the first parameter
 
 ```
 return view('path.to.view', []);
 ```
 
-######Flyview usage: 
+###### Flyview usage: 
 Pass array of strings on the first parameter
 
 ```
