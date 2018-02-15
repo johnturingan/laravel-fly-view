@@ -27,7 +27,7 @@
     "require-dev": { },
     "autoload": {
         "psr-4": {
-            "Snp\\FlyView": "src/"
+            "Snp\\FlyView\\": "src/"
         }
     },
     "autoload-dev": {
