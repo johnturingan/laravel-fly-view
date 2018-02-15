@@ -103,7 +103,7 @@ Inside your includeTest.blade.php file is this:
 ```
 Including string template to blade template file is possible.
 
-Config :page_facing_up:
+## Config :page_facing_up:
 
 All configuration is same as the default view config in your config folder.
 
