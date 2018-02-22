@@ -32,7 +32,7 @@ class BladeCompiler extends IlluminateBladeCompiler
         if (! is_null($this->cachePath)) {
             $contents = $this->compileString($stringTemplate);
 
-            $this->files->put($this->getCompiledPath($stringTemplate), $contents);
+            $this->files->put($this->getCompiledPath($stringTemplate), $this->minify($contents));
         }
     }
 
@@ -54,6 +54,28 @@ class BladeCompiler extends IlluminateBladeCompiler
         }
 
         return false;
+    }
+
+    /**
+     * minify string content before save
+     * @param $contents
+     * @return string
+     */
+    private function minify ($contents)
+    {
+
+        $replace = [
+            '/<!--[^\[](.*?)[^\]]-->/s' => '',
+            "/<\?php/"                  => '<?php ',
+            "/\n([\S])/"                => ' $1',
+            "/\r/"                      => '',
+            "/\n/"                      => '',
+            "/\t/"                      => ' ',
+            '/ +/'                      => ' ',
+        ];
+
+        return preg_replace(array_keys($replace), array_values($replace), $contents);
+
     }
 
 }

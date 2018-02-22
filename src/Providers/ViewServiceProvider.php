@@ -13,6 +13,7 @@ use Illuminate\View\Engines\CompilerEngine;
 use Illuminate\View\Engines\EngineResolver;
 use Illuminate\View\ViewServiceProvider as IlluminateViewServiceProvider;
 use Snp\FlyView\Compiler\BladeCompiler;
+use Snp\FlyView\Compiler\IlluminateBladeCompiler;
 use Snp\FlyView\Factory\Factory;
 
 /**
@@ -22,6 +23,15 @@ use Snp\FlyView\Factory\Factory;
 class ViewServiceProvider extends IlluminateViewServiceProvider
 {
 
+
+    public function boot ()
+    {
+        // setup publishing of config
+        $this->publishes([
+            __DIR__.'/../config/view.php' => config_path('view.php'),
+        ], 'config');
+    }
+
     /**
      * Register the service provider.
      *
@@ -29,6 +39,11 @@ class ViewServiceProvider extends IlluminateViewServiceProvider
      */
     public function register()
     {
+
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/view.php', 'view'
+        );
+
 
         parent::register();
 
@@ -104,6 +119,28 @@ class ViewServiceProvider extends IlluminateViewServiceProvider
 
         $resolver->register('flyView.blade', function () {
             return new CompilerEngine($this->app['flyView.blade.compiler']);
+        });
+    }
+
+    /**
+     * Register the Blade engine implementation.
+     *
+     * @param  \Illuminate\View\Engines\EngineResolver  $resolver
+     * @return void
+     */
+    public function registerBladeEngine($resolver)
+    {
+        // The Compiler engine requires an instance of the CompilerInterface, which in
+        // this case will be the Blade compiler, so we'll first create the compiler
+        // instance to pass into the engine so it can compile the views properly.
+        $this->app->singleton('blade.compiler', function () {
+            return new IlluminateBladeCompiler(
+                $this->app['files'], $this->app['config']['view.compiled']
+            );
+        });
+
+        $resolver->register('blade', function () {
+            return new CompilerEngine($this->app['blade.compiler']);
         });
     }
 

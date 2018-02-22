@@ -105,7 +105,20 @@ Including string template to blade template file is possible.
 
 ## Config :page_facing_up:
 
-All configuration is same as the default view config in your config folder.
+All configuration is same as the default view config in your config folder with an additional settings to minimize view contents. Default is false. 
+
+```
+/*
+    |--------------------------------------------------------------------------
+    | Minify View Content
+    |--------------------------------------------------------------------------
+    |
+    | This option determines whether or not you want to minify view contents.
+    | It removes unnecessary whitespace
+    |
+    */
+    'minify' => false
+```
 
 **`NOTE:`**
 
