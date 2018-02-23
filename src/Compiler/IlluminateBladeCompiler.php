@@ -46,6 +46,8 @@ class IlluminateBladeCompiler extends BladeCompiler
     private function minify ($contents)
     {
 
+        if (! config('view.minify')) return $contents;
+
         $replace = [
             '/<!--[^\[](.*?)[^\]]-->/s' => '',
             "/<\?php/"                  => '<?php ',
